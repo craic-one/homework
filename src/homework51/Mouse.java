@@ -9,4 +9,15 @@ public class Mouse {
         }
         this.mouseSpeed = mouseSpeed;
     }
+
+    public int getMouseSpeed() {
+        return mouseSpeed;
+    }
+
+    @Override
+    public String toString() {
+        return "Mouse{" +
+                "mouseSpeed=" + mouseSpeed +
+                '}';
+    }
 }

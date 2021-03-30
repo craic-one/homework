@@ -1,40 +1,54 @@
 package homework51;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Cat {
     private String catName;
     private String catColor;
     private int catSpeed;
     private int catWeight;
-    private int catMouseCounter;
+    private Mouse[] mice = new Mouse[100];
 
-    public void setCatName(String catName) {
+    public Cat(String catName, int catSpeed, int catWeight) {
         this.catName = catName;
+        this.catSpeed = catSpeed;
+        this.catWeight = catWeight;
+
     }
 
     public void setCatColor(String catColor) {
         this.catColor = catColor;
     }
 
-    public void setCatSpeed(int catSpeed) {
-        if (catSpeed < 0) {
-            throw new IllegalArgumentException("Скорость кота не может быть отрицательной");
-        }
-        this.catSpeed = catSpeed;
+    public int getCatWeight() {
+        return catWeight;
     }
 
-    public void setCatWeight(int catWeight) {
-        if (catWeight < 0) {
-            throw new IllegalArgumentException("Вес кота не может быть отрицательным");
-        }
-        this.catWeight = catWeight;
+    public Mouse[] getMice() {
+        return mice;
     }
 
-    public void setCatMouseCounter(int catMouseCounter) {
-        if (catMouseCounter < 0) {
-            throw new IllegalArgumentException("Отрицательное значение кол-ва мыщей");
+    public void addMouse(Mouse mouse) {
+        if (catSpeed <= mouse.getMouseSpeed()) return;
+        for (int i = 0; i < mice.length; i++) {
+            if (mice[i] == null) {
+                mice[i] = mouse;
+                return;
+            }
         }
-        this.catMouseCounter = catMouseCounter;
+    }
 
+    public void attack(Cat cat) {
+        if (catWeight <= cat.getCatWeight()) return;
+        for (int i = 0; i < cat.getMice().length; i++) {
+            if (cat.getMice()[i] != null) {
+                if (catSpeed > cat.getMice()[i].getMouseSpeed()) {
+                    addMouse(cat.getMice()[i]);
+                    cat.getMice()[i] = null;
+                }
+            }
+        }
     }
 
     @Override
@@ -44,7 +58,7 @@ public class Cat {
                 ", catColor='" + catColor + '\'' +
                 ", catSpeed=" + catSpeed +
                 ", catWeight=" + catWeight +
-                ", catMouseCounter=" + catMouseCounter +
+                ", mice=" + Arrays.toString(mice) +
                 '}';
     }
 }
